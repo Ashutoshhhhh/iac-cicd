@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
       
-run-name: IAC DEPLOYMENT AND WHAT IF
+run-name: IAC,WHAT IF AND DEPloy
 env:
   RG_NAME: 'iac-rg-bicep'
   LOCATION: 'centralindia'
@@ -23,7 +23,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Install Bicep
         run: az bicep install
-        
+
       - name: Bicep lint check
         run: |
           echo " Validating Bicep syntax"
@@ -34,5 +34,20 @@ jobs:
           echo " Running what-if deployment "
           az group create --name $RG_NAME --location $LOCATION
           az deployment group what-if --resource-group $RG_NAME --template-file main.bicep --parameters @parameters/dev.json
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      
+      - name: Azure login 
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+      - name: Deploy Bicep Template to Dev
+        run: |
+          echo "Deploying to dev Environment"
+          az deployment group create --resource-group $RG_NAME --template-file main.bicep --parameters @parameters/dev.json
 
-        
