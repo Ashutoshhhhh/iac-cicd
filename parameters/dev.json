@@ -1,0 +1,93 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "centralindia"
+        },
+        "vnetName": {
+            "value": "dev-vnet"
+        },
+        "vnetAddressPrefix": {
+            "value":"172.172.0.0/16"
+        },
+        "subnetName": {
+            "value":[
+                "web-subnet",
+                "app-subnet",
+                "db-subnet",
+                "appGateway-subnet"
+                
+            ]
+        },
+        "subnetAddressPrefix": {
+            "value":[
+                "172.172.1.0/24",
+                "172.172.2.0/24",
+                "172.172.3.0/24",
+                "172.172.4.0/24"
+            ]
+        },
+        "asgName": {
+            "value": [
+                "web-asg",
+                "app-asg",
+                "db-asg"
+            ]
+        },
+        "nsgName": {
+            "value": [
+                "web-nsg",
+                "app-nsg",
+                "db-nsg"
+            ]
+        },
+        "tier": {
+            "value": [
+                "web",
+                "app",
+                "db"
+            ]
+        },
+        "appGwName":{
+            "value":"dev-appgw"
+        },
+        "publicIpName":{
+            "value":"dev-app-gw-pip"
+        },
+        "appGwsubnetName":{
+            "value": "appGateway-subnet"
+        },
+        "vmName": {
+            "value": [
+                "web-vm",
+                "app-vm",
+                "db-vm"
+            ]
+        },
+        "vmSize": {
+            "value": "Standard_B1s"
+        },
+        "zones":{
+            "value": "1"
+        },
+        "publicIpEnabled": {
+            "value": [
+                true,
+                false,
+                false
+            ]
+        },
+        "adminUserName": {
+            "value": "azureuser"
+        },
+        "keyVaultName": {
+            "value": "ashutoshki2399"
+        }
+        
+
+
+
+        
+    }
+}

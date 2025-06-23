@@ -1,0 +1,17 @@
+name: Test Azure Login
+on:
+  workflow_dispatch
+run-name: Test Azure Login
+jobs:
+  login-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: $ {{ secrets.AZURE_CREDENTIALS}}
+      - name: Show current Azure subscription
+        run: az account show --output table
+  
