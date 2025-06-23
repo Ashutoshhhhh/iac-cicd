@@ -1,0 +1,38 @@
+name: IAC Deploymnet
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+      
+run-name: IAC DEPLOYMENT AND WHAT IF
+env:
+  RG_NAME: 'iac-rg-bicep'
+  LOCATION: 'centralindia'
+jobs:
+  validate:
+    name: Lint and What If
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Install Bicep
+        run: az bicep install
+        
+      - name: Bicep lint check
+        run: |
+          echo " Validating Bicep syntax"
+          az bicep build --file main.bicep
+
+      - name: What if deployment
+        run: |
+          echo " Running what-if deployment "
+          az group create --name $RG_NAME --location $LOCATION
+          az deployment group what-if --resource-group $RG_NAME --template-file main.bicep --parameters @parameters/dev.json
+
+        
