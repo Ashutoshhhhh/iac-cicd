@@ -1,0 +1,20 @@
+name: Delete RG
+on: [workflow_dispatch]
+run-name: Delte rg 
+env:
+  RG_NAME: 'iac-rg-bicep'
+jobs:
+  delte-rg:
+    runs-on: ubuntu-latest
+    steps:
+     - name: Checkout repo
+       uses: actions/checkout@v3
+
+     - name: Azure login
+       uses: azure/login@v1
+       with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+     - name: Delete rg
+       run: az group delete --name $RG_NAME --yes --no-wait
+
