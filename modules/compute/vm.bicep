@@ -90,20 +90,24 @@ resource vm 'Microsoft.Compute/virtualMachines@2024-11-01' = {
 
 }
 
-resource nginxExtension 'Microsoft.Compute/virtualMachines/extensions@2024-11-01' = if(publicIpEnabled){
+resource nginxExtension 'Microsoft.Compute/virtualMachines/extensions@2024-11-01' = if (publicIpEnabled) {
   parent: vm
   name: 'nginxExtension'
   location: location
   properties: {
-    publisher: 'Microsoft.Azure.Extension'
+    publisher: 'Microsoft.Azure.Extensions'
     type: 'CustomScript'
     typeHandlerVersion: '2.1'
     autoUpgradeMinorVersion: true
     settings: {
-      fileUris: [
-        'https://github.com/Ashutoshhhhh/bicepfirst/blob/main/third/nginx.sh'
-      ]
-      commandToExecute: 'bash nginx.sh'
+      commandToExecute: '''
+        #!/bin/bash
+        sudo apt update
+        sudo apt install -y nginx
+        sudo systemctl start nginx
+        sudo systemctl enable nginx
+      '''
     }
   }
 }
+

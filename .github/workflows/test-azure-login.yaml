@@ -14,4 +14,3 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Show current Azure subscription
         run: az account show --output table
-  
